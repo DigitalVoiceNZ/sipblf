@@ -1,0 +1,20 @@
+[Unit]
+Description=SIPBLF Extension Status Service
+After=network.target
+Documentation=[https://github.com/DigitalVoiceNZ/sipblf](https://github.com/DigitalVoiceNZ/sipblf)
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/usr/local/src/sipblf
+ExecStart=/usr/local/src/sipblf/sipblf
+Restart=always
+RestartSec=5
+TimeoutStartSec=15
+ProtectSystem=full
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

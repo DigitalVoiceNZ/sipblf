@@ -1,0 +1,151 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+}
+
+@media (min-width: 768px) {
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+    }
+    main {
+        flex: 1 0 auto;
+    }
+    footer {
+        flex-shrink: 0;
+    }
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+nav.bg-dark {
+    background-color: #000!important;
+    background-image: linear-gradient(to right, #000, #002189);
+}
+
+th.sortable:hover {
+    background-color: #e9ecef;
+}
+
+th.sortable::after {
+    content: "⇅";
+    margin-left: 5px;
+    opacity: 0.5;
+}
+
+th.sortable.asc::after {
+    content: "↑";
+    opacity: 1;
+}
+
+th.sortable.desc::after {
+    content: "↓";
+    opacity: 1;
+}
+
+tr.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+
+
+h1 {
+    color: #343a40;
+    margin-bottom: 1rem;
+}
+
+footer {
+    background-color: #f8f9fa;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+/* Status LED indicators */
+.device-state {
+    position: relative;
+    padding-left: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.device-state::before {
+    content: '';
+    position: relative;
+    display: inline-block;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    order: -1; /* Places LED before the text */
+}
+
+/* Gloss effect for all states */
+.device-state::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+    pointer-events: none;
+}
+
+/* LED span styling */
+.led {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+    position: relative;
+}
+
+/* Gloss effect for LED spans */
+.led::after {
+    content: '';
+    position: absolute;
+    left: 2px;
+    top: 2px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+/* Not in use - green */
+tr:not(.disabled):not(.in-use):not(.ringing) .device-state::before,
+tr:not(.disabled):not(.in-use):not(.ringing) .led {
+    background: radial-gradient(circle at center, #4CAF50 0%, #388E3C 100%);
+    box-shadow: 0 0 4px rgba(76, 175, 80, 0.5);
+}
+
+/* In use - red */
+tr.in-use .device-state::before,
+tr.in-use .led {
+    background: radial-gradient(circle at center, #F44336 0%, #D32F2F 100%);
+    box-shadow: 0 0 4px rgba(244, 67, 54, 0.5);
+}
+
+/* Ringing - yellow */
+tr.ringing .device-state::before,
+tr.ringing .led {
+    background: radial-gradient(circle at center, #FFC107 0%, #FFA000 100%);
+    box-shadow: 0 0 4px rgba(255, 193, 7, 0.5);
+}
+
+/* Unavailable - placeholder for alignment */
+tr.disabled .device-state::before,
+tr.disabled .led {
+    background: transparent;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
