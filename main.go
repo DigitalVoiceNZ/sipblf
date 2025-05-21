@@ -274,22 +274,23 @@ func initializeExtensionCache() error {
 	return nil
 }
 
-// Helper function to convert device state to human readable format
+var stateMap = map[string]string{
+	"INUSE":       "In use",
+	"NOT_INUSE":   "Not in use",
+	"IDLE":        "Not in use",
+	"RINGING":     "Ringing",
+	"BUSY":        "Busy",
+	"UNAVAILABLE": "Unavailable",
+	"INVALID":     "Unavailable",
+	"UNKNOWN":     "Unavailable",
+	"":            "Unavailable",
+}
+
 func getHumanReadableState(state string) string {
-	switch strings.ToUpper(state) {
-	case "INUSE":
-		return "In use"
-	case "NOT_INUSE", "IDLE":
-		return "Not in use"
-	case "RINGING":
-		return "Ringing"
-	case "BUSY":
-		return "Busy"
-	case "UNAVAILABLE", "INVALID", "UNKNOWN", "":
-		return "Unavailable"
-	default:
-		return "Unknown"
+	if readableState, ok := stateMap[strings.ToUpper(state)]; ok {
+		return readableState
 	}
+	return "Unknown"
 }
 
 func main() {
@@ -297,18 +298,18 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		log.Fatal("Error loading .env file")
 	}
-	
+
 	// Configure slog based on DEBUG environment variable
 	logLevel := slog.LevelInfo
 	if os.Getenv("DEBUG") != "" {
 		logLevel = slog.LevelDebug
 	}
-	
+
 	// Create a text handler with the appropriate level
 	handler := slog.NewTextHandler(os.Stdout, &slog.HandlerOptions{
 		Level: logLevel,
 	})
-	
+
 	// Set the default logger
 	slog.SetDefault(slog.New(handler))
 
