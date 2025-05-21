@@ -1,4 +1,4 @@
-# SIPBLF Status Service (Go Version)
+# SIPBLF Status Service
 
 This is a Go implementation of a SIPBLF Status Service that monitors
 Asterisk extensions via AMI and provides real-time updates using
@@ -58,8 +58,7 @@ and will not display descriptions for extensions.
    ```bash
    sudo cp sipblf.service /etc/systemd/system/
    sudo systemctl daemon-reload
-   sudo systemctl enable nzsip
-   sudo systemctl start nzsip
+   sudo systemctl enable --now sipblf
    ```
 
 3. Configure Nginx as reverse proxy:
