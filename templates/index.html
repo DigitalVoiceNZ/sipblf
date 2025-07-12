@@ -48,7 +48,7 @@
             </thead>
             <tbody>
               {{range .Endpoints}}
-              <tr id="e-{{.Extension}}" class="{{if or (eq .Status " Unavailable") (eq .Status "Unknown"
+              <tr id="e-{{.Extension}}" class="{{if or (eq .Status "Unavailable") (eq .Status "Unknown"
                 )}}disabled{{end}} {{if eq .Status "In use" }}in-use{{end}}">
                 <td class="device-state">{{.Extension}}</td>
                 <td>{{.Description}}</td>
