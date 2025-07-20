@@ -1,3 +1,10 @@
+// Override console.log to add timestamps
+const originalLog = console.log;
+console.log = function(...args) {
+  const timestamp = new Date().toLocaleTimeString('en-GB', { hour12: false });
+  originalLog(`[${timestamp}]`, ...args);
+};
+
 let currentSort = {
   column: document.querySelector('th.sortable.asc, th.sortable.desc')?.dataset.sort || 'extension',
   direction: document.querySelector('th.sortable.asc') ? 'asc' :
