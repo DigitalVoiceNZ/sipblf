@@ -51,6 +51,7 @@ document.querySelectorAll('th.sortable').forEach(header => {
 });
 
 let sse = null;
+let visibilityListener = null;
 let reconnectTimeout = 1000; // Start with 1 second
 const maxReconnectTimeout = 30000; // Max 30 seconds
 
@@ -59,7 +60,20 @@ function connectSSE() {
     sse.close();
   }
 
+  if (visibilityListener !== null) {
+    document.removeEventListener('visibilitychange', visibilityListener);
+  }
+
   sse = new EventSource("/events");
+
+  // watch for visibility changes when our SSE channel is closed
+  visibilityListener = () => {
+    if (!document.hidden && sse.readyState === EventSource.CLOSED) {
+      console.log('SSE connection unavailable, reloading page');
+      location.reload();
+    }
+  };
+  document.addEventListener('visibilitychange', visibilityListener);
 
   // Connection state handling
   sse.onopen = (e) => {
@@ -180,3 +194,6 @@ function connectSSE() {
     }
   }
 }
+
+// Initialize SSE connection when page loads
+connectSSE();
